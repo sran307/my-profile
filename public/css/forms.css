@@ -1,0 +1,54 @@
+input[type=text],input[type=password],select,input[type=date]{
+    padding-left: 30px;
+    font-weight: 900;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 5px 5px 5px rgb(100,100,100);
+    text-shadow: 3px 3px 2px rgb(100,100,100,.5);
+}
+select{
+    height: 30px;
+    border-radius: 5px;
+}
+.fontuser,.fontpass{
+    position: relative;
+    color: rgb(5, 5, 5);
+    text-shadow: 5px 5px 3px rgb(100,100,100,.5);
+}
+.fontuser i, .fontpass i{
+    position: absolute;
+    top: 10px;
+    margin: 0px 5px;
+}
+/*style for dashboard*/
+.box{
+    width: 80%;
+    height: 30vh;
+    margin: 10px;
+}
+.border-button{
+    
+    width: 80%;
+    height: 40%;
+}
+.btn-style{
+    box-shadow: 5px 5px 5px rgb(100,100,100);
+    text-shadow: 3px 3px 2px rgb(100,100,100,.5);
+}
+/*buttons
+-------------------Solid button-------------------*/
+.solid-button{
+    position:absolute;
+    width: 90%;
+    height: 90%;
+    border-radius: 20px;
+    transition: all ease-in-out .5s;
+    font-size: 30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+    color: rgb(200,10,50);
+}
+.solid-button:hover{
+    transform: translateY(-5px);
+    box-shadow: 5px 5px 5px rgb(50,50,50);
+    text-shadow: 5px 10px 3px rgb(5, 5, 5);
+}
