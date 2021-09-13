@@ -238,12 +238,29 @@ $(document).ready(function(){
     });
     //--end of nakshathra amount update--//
     //-----registration----------// 
+    //when we click the register button it takes all the values form the form and sent the data 
+    // to the controller
     $(".register-button").click(function (e) { 
         e.preventDefault();
+        //assigning all the data into a variable
+        var val = [];
+        $(':checkbox:checked').each(function(i){
+          val[i] = $(this).val();
+        });
        var data={
+           "first_name":$("#first_name").val(),
+           "last_name":$("#last_name").val(),
            "email":$("#email").val(),
-           "user_id":$("#user_id").val()
+           "mobile_number":$("#mobile_number").val(),
+           "country":$("#country").val(),
+           "gender":$("input[name='gender']:checked").val(),
+           "interest":val,
+           "job":$("#job").val(),
+           "user_id":$("#user_id").val(),
+           "password":$("input[name='password']").val(),
+           "confirm_password":$("input[name='confirm_password']").val()
         };
+        console.log(data);
         $.ajax({
             type: "patch",
             url: "/check_register",
