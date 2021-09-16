@@ -133,6 +133,54 @@ class Registration extends Controller
         return view("dashboard");
     }
     
-
+    //password changing function
+    public function change_password(){
+        return view("change_password");    
+    }
+    public function new_password(Request $request){
+        //validation 
+        $validate_data = $request->validate([
+            "password"=>"required",
+            "new_password"=>"required",
+            "confirm_new_password"=>"required"
+        ]);
+        //dd(session("login_id"));
+        //fetching data from input field
+        $password=$request->input("password");
+        $new_password=$request->post("new_password");
+        $confirm__password=$request->post("confirm_new_password");
+        //dd($new_password);
+        //checking whether the new and confirm password are same
+        //fetch the value from the table for corresponding user_id
+        //taking user login id from the session
+        $login_id=session("login_id");
+        //fetch the value corresponding to the id
+        $password_data=Registration_table::where("id",$login_id)->get();
+        //dd($password_data);
+        //taking password from table
+        foreach($password_data as $data){
+            $user_password=$data->Password;
+        }
+        //convert the typed old password into md5
+        $enc_password=md5($password);
+        //convert the new password into md5
+        $new_enc_password=md5($new_password);
+        if($new_password!=$confirm__password){
+            return back()->with("error_message","new password and confirm password are not same.");
+        }else if($user_password == $enc_password){
+            //password from table and now typed passwords are equal then modify the table
+            DB::beginTransaction();
+            try{
+                Registration_table::where("id",$login_id)->update(["Password"=>$new_enc_password]);
+                DB::commit();
+                return redirect("/dashboard")->with("success_message","Passwoord changed successfully");
+            }catch(\Exception $e){
+                DB::rollback();
+                return back()->with("error_message","Cannot change the password");
+            }
+        }else{
+            return back()->with("error_message","your login password is not matching");
+        }
+    }
 
 }

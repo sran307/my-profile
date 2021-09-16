@@ -6,6 +6,11 @@ Dashboard
 
     <section class="dashboard">
         <div class="container">
+            @if(session()->has("success_message"))
+            <div class="alert alert-success">
+                {{session()->get("success_message") }}
+            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="box">

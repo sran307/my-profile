@@ -40,7 +40,8 @@ Route::get("/login",[Registration::class,"login"]);
 Route::post("/login_form",[Registration::class,"login_form"]);
 Route::get("/logout",[Registration::class,"logout"]);
 Route::get("/dashboard",[Registration::class,"dashboard"]);
-Route::patch("/check_register",[Registration::class,"check_register"]);
+Route::get("/change_password",[Registration::class,"change_password"]);
+Route::post("/new_password",[Registration::class,"new_password"]);
 
 
 Route::get("/loan",[ForLoan::class,"loan"]);
