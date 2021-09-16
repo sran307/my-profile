@@ -272,9 +272,6 @@ $(document).ready(function(){
             data: data,
             dataType: "json",
             success: function (response) {
-                if(response.status==200){
-                    //$("#email_message").html(response.message);
-                }
                 if(response.status==400){
                     //console.log(response.errors.first_name);
                     //display this error messages to our registration form
@@ -351,6 +348,8 @@ $(document).ready(function(){
                 }else if(response.status==200){
                     //checking email is used or not
                     //console.log(response.console)
+                        $(".error").html("");
+                        $(".error").removeClass("alert alert-danger");
                         $(".error_3").html("");
                         $(".error_3").addClass("alert alert-danger");
                         $(".error_3").text(response.message);
