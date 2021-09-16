@@ -35,6 +35,10 @@ thead,tbody{
 ul{
     list-style-type: none;
 }
+.error,.success_register{
+    text-shadow: none;
+    margin-top: 5px;
+}
 /*====================================================================================================================*/
 #header{
     background-color: rgb(0,0,0);

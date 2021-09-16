@@ -256,19 +256,126 @@ $(document).ready(function(){
            "gender":$("input[name='gender']:checked").val(),
            "interest":val,
            "job":$("#job").val(),
-           "user_id":$("#user_id").val(),
+           "user_id":$("input[name='user_id']").val(),
            "password":$("input[name='password']").val(),
            "confirm_password":$("input[name='confirm_password']").val()
         };
-        console.log(data);
+        //console.log(data);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.ajax({
-            type: "patch",
-            url: "/check_register",
+            type: "post",
+            url: "/registration_form",
             data: data,
             dataType: "json",
             success: function (response) {
                 if(response.status==200){
-                    $("#email_message").html(response.message);
+                    //$("#email_message").html(response.message);
+                }
+                if(response.status==400){
+                    //console.log(response.errors.first_name);
+                    //display this error messages to our registration form
+                    //empty the previous classes
+                    $(".error").html("");
+                    //checking status. If it is undefined then remove and not undefined then add class
+                    if(response.errors.first_name!=undefined){
+                        $(".error_1").addClass("alert alert-danger");
+                        $(".error_1").text(response.errors.first_name);
+                    }else{
+                        $(".error_1").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.last_name!=undefined){
+                        $(".error_2").addClass("alert alert-danger");
+                        $(".error_2").text(response.errors.last_name);
+                    }else{
+                        $(".error_2").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.email!=undefined){
+                        $(".error_3").addClass("alert alert-danger");
+                        $(".error_3").text(response.errors.email);
+                    }else{
+                        $(".error_3").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.mobile_number!=undefined){
+                        $(".error_4").addClass("alert alert-danger");
+                        $(".error_4").text(response.errors.mobile_number);
+                    }else{
+                        $(".error_4").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.country!=undefined){
+                        $(".error_5").addClass("alert alert-danger");
+                        $(".error_5").text(response.errors.country);
+                    }else{
+                        $(".error_5").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.gender!=undefined){
+                        $(".error_6").addClass("alert alert-danger");
+                        $(".error_6").text(response.errors.gender);
+                    }else{
+                        $(".error_6").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.interest!=undefined){
+                        $(".error_7").addClass("alert alert-danger");
+                        $(".error_7").text(response.errors.interest);
+                    }else{
+                        $(".error_7").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.job!=undefined){
+                        $(".error_8").addClass("alert alert-danger");
+                        $(".error_8").text(response.errors.job);
+                    }else{
+                        $(".error_8").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.user_id!=undefined){
+                        $(".error_9").addClass("alert alert-danger");
+                        $(".error_9").text(response.errors.user_id);
+                    }else{
+                        $(".error_9").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.password!=undefined){
+                        $(".error_10").addClass("alert alert-danger");
+                        $(".error_10").text(response.errors.password);
+                    }else{
+                        $(".error_10").removeClass("alert alert-danger");
+                    }
+                    if(response.errors.confirm_password!=undefined){
+                        $(".error_11").addClass("alert alert-danger");
+                        $(".error_11").text(response.errors.confirm_password);
+                    }else{
+                        $(".error_11").removeClass("alert alert-danger");
+                    }
+                    
+                }else if(response.status==200){
+                    //checking email is used or not
+                    //console.log(response.console)
+                        $(".error_3").html("");
+                        $(".error_3").addClass("alert alert-danger");
+                        $(".error_3").text(response.message);
+                }else if(response.status==201){
+                    //checking user id used or not
+                    //here add a reomve class for removing previous class of email id
+                    //console.log(response.message)
+                    $(".error_3").removeClass("alert alert-danger");
+                    $(".error_3").html("");
+                    $(".error_9").html("");
+                    $(".error_9").addClass("alert alert-danger");
+                    $(".error_9").text(response.message);
+                }else if(response.status==401){
+                    //checking the password and confirm password are matching or not
+                    //console.log(response)
+                    $(".error_9").removeClass("alert alert-danger");
+                    $(".error_9").html("");
+                    $(".error_11").html("");
+                    $(".error_11").addClass("alert alert-danger");
+                    $(".error_11").text(response.error);
+                }else if(response.status==205){
+                    $(".success_register").html("");
+                    $(".success_register").addClass("alert alert-success");
+                    $(".success_register").text(response.message);
+                    window.location.href=response.url;
                 }
             }
         });

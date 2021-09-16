@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 //adding table
 use App\Models\Registration_table;
+//adding validator
+use Illuminate\Support\Facades\Validator;
 
 class Registration extends Controller
 {
@@ -12,21 +15,53 @@ class Registration extends Controller
         return view("register");
     }
     public function registration_form(Request $request){
-        //validation
-        $validate_data=$request->validate([
+        //taking email id and user id from table to check whether it is used or not
+        $email=$request->input("email");
+        $email_data=Registration_table::where("Email",$email)->get();
+        $user_id=$request->input("user_id");
+        $user_id_data=Registration_table::where("User_Id",$user_id)->get();
+        //validation of ajax
+        $validate_data=Validator::make($request->all(),[
             "first_name"=>"required",
             "last_name"=>"required",
-            "email"=>"required",
-            "mobile_number"=>"required",
+            "email"=>"required|email",
+            "mobile_number"=>"required|integer|min:10",
             "country"=>"required",
             "gender"=>"required",
             "interest"=>"required",
             "job"=>"required",
-            "user_id"=>"required",
+            "user_id"=>"required|min:8",
             "password"=>"required",
             "confirm_password"=>"required"
         ]);
-        //concatenate first and last name 
+        //validation message 
+        if($validate_data->fails()){
+            return response()->json([
+                "status"=>400,
+                "errors"=>$validate_data->messages()
+            ]);
+           
+        }else if(count($email_data)>0){
+            //checking whether the email id is exist or not
+            return response()->json([
+                "status"=>200,
+                "message"=>"Email id already taken. Try another one.",
+                "console"=>count($email_data)
+            ]);
+        }else if(count($user_id_data)>0){
+            //chiecking whether the user id is taken or not
+            return response()->json([
+                "status"=>201,
+                "message"=>"User id already taken. Try another one."
+            ]);
+        }else if($request->post("password")!=$request->post("confirm_password")){
+            //checking password and confirm password are equal or not
+            return response()->json([
+                "status"=>401,
+                "error"=>"passwords are not matching"
+            ]);
+        }else{
+            //concatenate first and last name 
         $name=$request->post("first_name")." ".$request->post("last_name");
         //interst changed into json
         $interests = $request->post("interest");
@@ -53,7 +88,13 @@ class Registration extends Controller
         }catch(\Exception $e){
             DB::rollback();
         }
-        return redirect(route("home"))->with("success_message","Registration Successful");
+        return response()->json([
+            "status"=>205,
+            "message"=>"Registration successful",
+            "url"=>"/home"
+        ]);
+        }
+        
     }
 
     public function login(){
@@ -91,22 +132,7 @@ class Registration extends Controller
     public function dashboard(){
         return view("dashboard");
     }
-    public function check_register(Request $request){
-        $email=$request->input("email");
-        $user_id=$request->input("user_id");
-        if(Registration_table::where("Email",$email)->get()){
-            return response()->json([
-                "status"=>200,
-                "message"=>"Email id already taken. Try another one."
-            ]);
-        }
-        if(Registration_table::where("User_Id",$user_id)->get()){
-            return response()->json([
-                "status"=>201,
-                "message"=>"User id already taken. Try another one."
-            ]);
-        }
-    }
+    
 
 
 }
