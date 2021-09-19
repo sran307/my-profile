@@ -41,7 +41,7 @@
                     <li class="nav-item"><a href="/register" class="nav-link">Register</a></li>
                     <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
                     @else
-                    <li class="nav-item"><a class="nav-link">profile</a></li>
+                    <li class="nav-item"><a href="/profile" class="nav-link">profile</a></li>
                     <li class="nav-item"><a href="/change_password" class="nav-link">Password</a></li>
                     <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
                     @endif

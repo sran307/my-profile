@@ -37,6 +37,7 @@ class ForChit extends Controller
     public function number_of_months_paid(){
         $TotalNumberOfMonth = chitty::count("Date");
         $NumberOfMonthNotPaid = chitty::where("amount",0)->count("Date");
-        return view("numberOfMonthsPaid",["data1"=>$TotalNumberOfMonth,"data2"=>$NumberOfMonthNotPaid]);
+        $NumberOfMonthPaid = $TotalNumberOfMonth-$NumberOfMonthNotPaid;
+        return view("numberOfMonthsPaid",["data1"=>$TotalNumberOfMonth,"data2"=>$NumberOfMonthPaid,"data3"=>$NumberOfMonthNotPaid]);
     }
 }
