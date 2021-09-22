@@ -42,6 +42,7 @@ Route::get("/logout",[Registration::class,"logout"]);
 Route::get("/dashboard",[Registration::class,"dashboard"]);
 Route::get("/change_password",[Registration::class,"change_password"]);
 Route::post("/new_password",[Registration::class,"new_password"]);
+Route::get("/profile",[Registration::class,"profile"]);
 
 
 Route::get("/loan",[ForLoan::class,"loan"]);

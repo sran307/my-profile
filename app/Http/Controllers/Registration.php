@@ -180,7 +180,42 @@ class Registration extends Controller
             }
         }else{
             return back()->with("error_message","your login password is not matching");
-        }
+        };
     }
+
+        //function for profile page
+    public function profile(){
+        //object:take the data from the database corresponding to the id that matches login credentials
+        //then pass it to the profile page
+        //taking user login id from the session
+        $login_id=session("login_id");
+        //taking data from data base
+        $user_data = Registration_table::where("id",$login_id)->get();
+        foreach($user_data as $data){
+            $name=$data->Name;
+            $email=$data->Email;
+            $mobile=$data->Mobile_number;
+            $gender=$data->Gender;
+            $country=$data->Country;
+            $interests=$data->Interests;
+            $job=$data->Job;
+            $user_id=$data->User_Id;
+        }
+        //decoding json encoded checkbox data
+        $interest=json_decode($interests);
+        //dd($interest);
+        //passing data to the page
+        return view("profile",[
+            "name"=>$name,
+            "email"=>$email,
+            "mobile"=>$mobile,
+            "gender"=>$gender,
+            "country"=>$country,
+            "interest"=>$interest,
+            "job"=>$job,
+            "userId"=>$user_id
+        ]);
+    }
+    
 
 }
