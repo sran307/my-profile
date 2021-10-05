@@ -20,9 +20,39 @@ class Nakshathra extends Controller
         return view("addComponent");
     }
     public function add_component_form(Request $request){
-        Ncomponent::create(["Components"=>$request->post("component_name")]);
-        $id = Ncomponent::max("id");
-        $name =$request->post("component_name");
+        //taking all the component 
+        $components = Ncomponent::all();
+        //dd($components);
+        //checking the component present or not 
+        //if not present insert the data if present take the data
+        $name =$request->post("component_name");        //name of the component entered
+        $all_components=[];     //declaring an empty array
+        //pushing elements into the array
+        foreach($components as $component){
+            array_push($all_components,$component->Components);
+        }
+        //dd($all_components);
+        //checking whether the component is present or not
+    
+        if(in_array($name,$all_components)){
+            //if present, take  the id
+            //dd($id);
+            //for loop is used for iterate and taking the id which is corresponding to the compoent 
+            //using an if condition
+            foreach($components as $component){
+                if($name==$component->Components){
+                    //dd($component->id);
+                    $id=$component->id;
+                }
+            }
+        }else{
+            //if not present, insert the data
+            //dd($name);
+            Ncomponent::create(["Components"=>$request->post("component_name")]);
+            $id=Ncomponent::max("id");
+        }
+        
+        
         return view("addComponentForm",["id"=>$id,"name"=>$name]);
     }
     public function adding_component(Request $request){
@@ -33,7 +63,7 @@ class Nakshathra extends Controller
             "Component_value"=>$request->post("component_value"),
             "Component_rating"=>$request->post("component_rating"),
             "Component_price"=>$request->post("component_price"),
-            "Quantity"=>$request->post("component_quantity")
+            "No_of_components"=>$request->post("component_quantity")
         ]);
         return view("addComponentForm",["id"=>$id,"name"=>$name]);
     }

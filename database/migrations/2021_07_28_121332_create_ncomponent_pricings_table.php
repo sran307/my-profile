@@ -23,6 +23,7 @@ class CreateNcomponentPricingsTable extends Migration
             $table->integer("No_of_components");
             $table->timestamps();
         });
+       
     }
 
     /**
@@ -33,5 +34,6 @@ class CreateNcomponentPricingsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('ncomponent_pricings');
+        
     }
 }

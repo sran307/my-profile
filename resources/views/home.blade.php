@@ -20,6 +20,7 @@ Home
                     <p>already a user</p>
                     <a href="/login"><button type="button" class="special-button special">Login Here</button></a>
                 </div>
+                
             </div>
         </div>
         <div class="container mt-5">

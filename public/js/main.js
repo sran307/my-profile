@@ -379,6 +379,12 @@ $(document).ready(function(){
             }
         });
     });
-
+    //profile 
+    $("#profile_modal_button").click(function (e) { 
+        $("#profile_modal").modal("show");
+        
+    });
+    //adding component and shows it in the samepage
+    
 
 })

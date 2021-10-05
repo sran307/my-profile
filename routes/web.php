@@ -45,6 +45,7 @@ Route::post("/new_password",[Registration::class,"new_password"]);
 Route::get("/profile",[Registration::class,"profile"]);
 
 
+
 Route::get("/loan",[ForLoan::class,"loan"]);
 Route::post("/loan_form",[ForLoan::class,"loanForm"]);
 Route::get("/loan_amount",[ForLoan::class,"loan_amount"]);

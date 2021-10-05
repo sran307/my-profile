@@ -55,11 +55,11 @@ profile
     </section>
     <!--modal for update data-->
     <div class="modal" id="profile_modal">
-        <div class="modal-dialogue">
+        <div class="modal-dialogue bg-dark">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="modal-title">
-                        modal
+                        <h6>profile</h6>
                     </div>
                 </div>
             </div>

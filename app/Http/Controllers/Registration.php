@@ -104,7 +104,7 @@ class Registration extends Controller
         $user_id_or_email=$request->post("user_id");
         $password=$request->post("password");
         //encrypting password because, in the table the password is in encrypted format
-        $enc_password=md5($password);
+        $enc_password=$password;
         $user=Registration_table::where("Email",$user_id_or_email)->orWhere("User_Id",$user_id_or_email)->get();
         foreach($user as $data){
             $user_password=$data->Password;
@@ -146,6 +146,7 @@ class Registration extends Controller
         ]);
         //dd(session("login_id"));
         //fetching data from input field
+        
         $password=$request->input("password");
         $new_password=$request->post("new_password");
         $confirm__password=$request->post("confirm_new_password");
@@ -216,6 +217,6 @@ class Registration extends Controller
             "userId"=>$user_id
         ]);
     }
-    
+   
 
 }
