@@ -12,16 +12,6 @@ Nakshathra
         </div>
         <div class="col-lg-4 col-md-4">
             <div class="box">
-                <a href="/update_component"><button class="solid-button">Update Component</button></a>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4">
-            <div class="box">
-                <a href="/used_component"><button class="solid-button">Number of components taken</button></a>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4">
-            <div class="box">
                 <a href="/availability"><button class="solid-button">Check Availability</button></a>
             </div>
         </div>
@@ -35,12 +25,12 @@ Nakshathra
                 <a href="/update_salary"><button class="solid-button">Update The Amount You Got</button></a>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-4 col-md-4">
             <div class="box">
                 <a href="/profit"><button class="solid-button">Profit</button></a>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-4 col-md-4">
             <div class="box">
                 <a href="/asset"><button class="solid-button">Total Amount Of Assets</button></a>
             </div>

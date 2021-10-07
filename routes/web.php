@@ -86,6 +86,8 @@ Route::post("used_component_form",[Nakshathra::class,"used_component_form"]);
 Route::get("/availability",[Nakshathra::class,"components_available"])->name("components_available");
 Route::post("/check_availability",[Nakshathra::class,"check_availability"]);
 Route::get("/asset",[Nakshathra::class,"assets"]);
+Route::get("/update_component_modal/{id}",[Nakshathra::class,"update_component_modal"]);
+Route::put("/update_to_table",[Nakshathra::class,"update_to_table"]);
 
 #stock and mutual fund controller
 Route::get("/stocks",[Assets::class,"stocks"]);

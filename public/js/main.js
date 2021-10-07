@@ -384,7 +384,127 @@ $(document).ready(function(){
         $("#profile_modal").modal("show");
         
     });
-    //adding component and shows it in the samepage
+    //available items showing
+    //create an event of onchange 
+    //create the function for on change and call it wherever needed
+    function component_loading(){
+        $(document).html("");
+        var data={
+            "component_name": $("#component_selection").val()
+        }
+        //making an ajax request for fetch the data corresponding to the name
+        //csrf token
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/check_availability",
+            data:data,
+            dataType:"json",
+            success: function (response) {
+                //console.log(response);
+                //showing data into a table
+                $(".component_table").html("");     //empty the table
+                // the value is an array so using an for loop extract it
+                $.each(response.data, function (key,item) {
+                    //console.log(item);
+                    //append data into the table
+                    $(".component_table").append("<tr>\
+                        <td>"+item.id+"</td>\
+                        <td>"+item.Component_name+"</td>\
+                        <td>"+item.Component_value+"</td>\
+                        <td>"+item.Component_rating+"</td>\
+                        <td>"+item.Component_price+"</td>\
+                        <td>"+item.No_of_components+"</td>\
+                        <td><button value='"+item.id+"' class='btn btn-outline-light update'>No Of Taken</button>\
+                        <button value='"+item.id+"' class='btn btn-outline-light component_update'>update</button></td>\
+                        </tr>"
+                    );
+                    
+                });
+            }
+        
+        });
+    }
+    $(document).on("change", "#component_selection", function () {
+            //console.log($(this).val());
+            
+        component_loading();
+    });
     
+    
+    //end
+    //update the component
+    $(document).on("click", ".component_update", function (e) {
+        e.preventDefault();
+        //modal showing
+        $("#component_modal").modal("show");
+        //taking the id from the update button using button class
+        var id = $(this).val();
+        //console.log(id);
+        //taking the value from database corresponding to id
+        //show the result in modal
+        $.ajax({
+            type: "get",
+            url: "/update_component_modal/"+id,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+               $.each(response.data, function (key, item) { 
+                    //console.log(item.id);
+                    $("#component_id").val(item.id);
+                    $("#component_name").val(item.Component_name);
+                    $("#component_rating").val(item.Component_rating);
+                    $("#component_price").val(item.Component_price);
+                    $("#component_value").val(item.Component_value);
+                    $("#component_available").val(item.No_of_components)
+               });
+            }
+        });
+    });
+    //read the value from table and assign it to the table
+    $(document).on("click", ".update_from_modal", function (e) {
+        e.preventDefault();
+        var data={
+            "id":$("#component_id").val(),
+            "name":$("#component_name").val(),
+            "price":$("#component_price").val(),
+            "value":$("#component_value").val(),
+            "rating":$("#component_rating").val(),
+            "available":$("#component_available").val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "put",
+            url: "/update_to_table",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //after execution hide the modal
+                $("#component_modal").modal("hide");
+                //console.log(response);
+                if(response.status==200){
+                    $(".message").addClass("alert alert-success");
+                    $(".message").text(response.message);
+                }else if(response.status==400){
+                    $(".message").addClass("alert alert-danger");
+                    $(".message").text(response.message);
+                }
+                
+                component_loading();
+            }
+        });
+    });
+    //end update the component
+    //number of items taken
+    
+    //end of number of items taken
 
 })

@@ -193,10 +193,10 @@ class Nakshathra extends Controller
         $data = Ncomponent::all();
         return view("components_available",["data"=>$data]);
     }
+    //checking available number of items
     public function check_availability(Request $request){
         $name =$request->post("component_name");
-        $value1 =$request->post("component_value");
-        $rating= $request->post("component_rating");
+       
         $data=Ncomponent_pricing::where("Component_name",$name)->get();
         foreach($data as $value){
             $component_value=$value->Component_value;
@@ -205,12 +205,10 @@ class Nakshathra extends Controller
             $component_rating=$value->Component_rating;
             $component_price="Price is :".$value->Component_price;
         }
-        $available="The available quantity is :".$component_quantity-$component_used;
-        if($value1==$component_value and $rating==$component_rating){
-            return view("available_components",["available"=>$available,"price"=>$component_price]);
-        }else{
-            return redirect(route("components_available"))->with("error_message","Component value or rating is not matching");     
-        }
+        return response()->json([
+            //passing data to the js file 
+            "data"=>$data,
+        ]);
     }
     public function assets(){
         $data=Ncomponent_pricing::all();
@@ -267,7 +265,51 @@ class Nakshathra extends Controller
         //$customer->update();
         
     }
+    //updating component for that take the value from the table and show it on the modal
+    public function update_component_modal($id){
+        $data = ncomponent_pricing::where("id",$id)->get();
+        return response()->json([
+            "data"=>$data
+        ]);
+    }
+    //new content is updating to the table
+    public function update_to_table(Request $request){
+        //assigning values to variable
+        $id=$request->input("id");
+        $name=$request->input("name");
+        $rating=$request->input("rating");
+        $price=$request->input("price");
+        $value=$request->input("value");
+        $available=$request->input("available");
+        //update with corresponding id and name
+        DB::beginTransaction();
+        try{
+            Ncomponent_pricing::where([
+                ["id","=",$id],
+                ["Component_name","=",$name]
+                ])->update([
+                    "Component_price"=>$price,
+                    "Component_value"=>$value,
+                    "Component_rating"=>$rating,
+                    "No_of_components"=>$available
+                ]);
+        DB::commit();
+        return response()->json([
+            "status"=>200,
+            "message"=>"components updated"
+        ]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                "status"=>400,
+                "message"=>"Cannot update the components"
+            ]);
+
+        }
+
+    }
     public function asset(){
         return view("assets");
     }
+
 }
