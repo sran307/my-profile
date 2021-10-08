@@ -308,6 +308,46 @@ class Nakshathra extends Controller
         }
 
     }
+    //used component update function
+    public function component_taken(Request $request){
+        $id=$request->input("id");
+        $no_of_taken=$request->input("no_used");
+        $data=Ncomponent_pricing::where("id",$id)->get();
+        //dd($data);
+        foreach($data as $value){
+            $available=$value->No_of_components;
+        }
+        //condition checking
+        // 1. whether the number of taken less or grater. if greater try exception
+        if($no_of_taken>$available){
+            return response()->json([
+                "status"=>400,
+                "message"=>"Sorry, that much of component is not available"
+            ]);
+        }else if($remaining==0){
+            return response()->json([
+                "status"=>205,
+            ]);
+        }else{
+            //update component available table
+            $remaining=$available-$no_of_taken;
+            DB::beginTransaction();
+            try{
+                Ncomponent_pricing::where("id",$id)->update(["No_of_components"=>$remaining]);
+                DB::commit();
+                return response()->json([
+                    "status"=>200,
+                    "message"=>"availability added"
+                ]);
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json([
+                    "status"=>400,
+                    "message"=>"Cannot finish the updation"
+                ]);
+            }
+        }
+    }
     public function asset(){
         return view("assets");
     }

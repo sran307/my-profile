@@ -419,7 +419,7 @@ $(document).ready(function(){
                         <td>"+item.Component_rating+"</td>\
                         <td>"+item.Component_price+"</td>\
                         <td>"+item.No_of_components+"</td>\
-                        <td><button value='"+item.id+"' class='btn btn-outline-light update'>No Of Taken</button>\
+                        <td><button value='"+item.id+"' class='btn btn-outline-light used'>Used</button>\
                         <button value='"+item.id+"' class='btn btn-outline-light component_update'>update</button></td>\
                         </tr>"
                     );
@@ -504,7 +504,49 @@ $(document).ready(function(){
     });
     //end update the component
     //number of items taken
-    
+    //1.showing a modal for number of items taken
+    $(document).on("click", ".used", function (e) {
+        e.preventDefault();
+        $("#used_modal").modal("show");
+        //console.log($(this).val())      
+        //inserting this id into the button
+        $("#took_component").val($(this).val());  
+    });
+    $(document).on("click","#took_component", function () {
+        //console.log($(this).val());
+        //taking the id from button
+        
+        var data={
+            "no_used":$("#used_component").val(),
+            "id":$(this).val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "put",
+            url: "/components_taken",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                $("#used_modal").modal("hide");
+                if(response.status==200){
+                    $(".message").removeClass("alert alert-danger");
+                    $(".message").addClass("alert alert-success");
+                    $(".message").text(response.message);
+                }else{
+                    $(".message").removeClass("alert alert-success");
+                    $(".message").addClass("alert alert-danger");
+                    $(".message").text(response.message);
+                }
+                component_loading();
+            }
+        });
+
+    });
     //end of number of items taken
 
 })

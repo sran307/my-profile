@@ -13,25 +13,27 @@ Check availability
                 <option value="{{$value->Components}}">{{$value->Components}}</option>
                 @endforeach
             </select>
-        </form>
-        <div class="my-4">
-            <table class="table table-bordered">
-                <thead class="table-head">
-                    <tr>
-                        <th>Component Id</th>
-                        <th>Component Name</th>
-                        <th>Component Value</th>
-                        <th>Component Rating</th>
-                        <th>Component Price</th>
-                        <th>availability</th>
-                        <th>Options</th>
-                    </tr>
-                </thead>
-                <tbody class="component_table">
+    </form>
+        <!--success and error messages-->
+    <p class="message my-4"></p>
+    <div class="my-4">
+        <table class="table table-bordered">
+            <thead class="table-head">
+                 <tr>
+                    <th>Component Id</th>
+                    <th>Component Name</th>
+                    <th>Component Value</th>
+                    <th>Component Rating</th>
+                    <th>Component Price</th>
+                    <th>availability</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody class="component_table">
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
         <a href="/nakshathra" class="d-flex justify-content-center my-4"><button class="btn btn-primary">RETURN BACK</button></a>
         <!-- Modal -->
 <div class="modal fade" id="component_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,8 +92,28 @@ Check availability
     </div>
   </div>
 </div>
-<!--success and error messages-->
-<p class="message"></p>
+<!--modal for used component updating-->
+<div class="modal fade" id="used_modal" tab-index="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title">Used Component</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" placeholder="Enter the component took" id="used_component" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="took_component">update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </section>
         
 @endsection
