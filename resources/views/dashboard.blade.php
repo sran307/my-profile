@@ -31,7 +31,7 @@ Dashboard
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="box">
-                        <a href="/loan"><button class="solid-button">Upload Loan Amount</button></a>
+                        <a href="/loan"><button class="solid-button">Debt</button></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">

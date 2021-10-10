@@ -48,7 +48,7 @@ Route::get("/profile",[Registration::class,"profile"]);
 
 Route::get("/loan",[ForLoan::class,"loan"]);
 Route::post("/loan_form",[ForLoan::class,"loanForm"]);
-Route::get("/loan_amount",[ForLoan::class,"loan_amount"]);
+Route::post("/loan_amount",[ForLoan::class,"loan_amount"]);
 
 #budget is a conotroller for earnings and expenses
 Route::get("/expense",[Budget::class,"expense"]);

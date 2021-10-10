@@ -548,5 +548,56 @@ $(document).ready(function(){
 
     });
     //end of number of items taken
-
-})
+    //adding debt
+    $(document).on("click", "#loan_amount", function (e) {
+        e.preventDefault();
+        var data={
+            "date":$("#debt_date").val(),
+            "amount":$("#debt_amount").val()
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/loan_form",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                $(".div_show").text("Total debt is :"+response.data);
+                $(".div_show1").text("Amount you paid:"+response.data1);
+                $(".div_show2").text("Amount for pay :"+response.data2);
+            }
+        });
+    });
+    //minusing the amount that paid
+    $(document).on("click", "#paid_button", function (e) {
+        e.preventDefault();
+        var data={
+            "date":$("#debt-date").val(),
+            "amount":$("#paid_amount").val()
+        } 
+        //console.log(data);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/loan_amount",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                $(".div_show").text("Total debt is :"+response.data);
+                $(".div_show1").text("Amount you paid :"+response.data1);
+                $(".div_show2").text("Amount for  :"+response.data2);
+            }
+        });
+        
+    });
+});

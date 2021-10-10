@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class NcomponentPricing extends Migration
+class PaidAmount extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class NcomponentPricing extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('ncomponent_pricings', function (Blueprint $table) {
-            $table->renameColumn('No_of_components', 'Quantity');
+        Schema::table('loans', function (Blueprint $table) {
+            $table->integer("Paid_amount")->after("Amount");
         });
     }
 
@@ -26,9 +25,8 @@ class NcomponentPricing extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('ncomponent_pricings', function (Blueprint $table) {
-            $table->renameColumn('Quantity', 'No_of_components');
+        Schema::table('loans', function (Blueprint $table) {
+            $table->dropColumn("Paid_amount");
         });
     }
 }
