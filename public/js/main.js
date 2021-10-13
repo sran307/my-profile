@@ -600,4 +600,179 @@ $(document).ready(function(){
         });
         
     });
+    //making customer bill using selecting the components
+    function get_component(){
+        //$("#adding_comp").addClass("d-block");
+        $.ajax({
+            type: "get",
+            url: "/component_for_customer",
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                //taking all the names and display it in a selection
+                $.each(response.name, function (key, value) { 
+                    //console.log(value.Components);
+                    $("#adding_comp").addClass("d-block");
+                    $("#name_selector").append("<option>"+value.Components+"</option>");
+                });
+            }
+        });
+    }
+    $(document).on('click',"#add_comp", function () {
+       get_component();
+       $("#add_comp").attr("id","adder");
+    });
+    $(document).on("change", "#name_selector", function (e) {
+        e.preventDefault();
+        //console.log($(this).val());
+        var data={
+            "name":$(this).val()
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/component_value",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+               $("#value_selector").html("");
+               $("#value_selector").append("<option>"+'select a value'+"</option>");
+                $.each(response.value, function (key, value) { 
+                    //console.log(value.Components);
+                    //$("#adding_comp").addClass("d-block");
+                    
+                    $("#value_selector").append("<option>"+value.Component_value+"</option>");
+                });
+            }
+        });
+    });
+    $("#value_selector").change(function (e) {
+        e.preventDefault();
+        var data={
+            "name":$("#name_selector").val(),
+            "value":$(this).val()
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/component_rating",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                $("#rating_selector").html("");
+                $("#rating_selector").append("<option>"+'select the rating'+"</option>");
+                $.each(response.rating, function (key, value) { 
+                    $("#rating_selector").append("<option>"+value.Component_rating+"</option>");
+                });
+            }
+        });
+    });
+    $("#rating_selector").change(function (e) {
+        e.preventDefault();
+        var data={
+            "name":$("#name_selector").val(),
+            "value":$("#value_selector").val(),
+            "rating":$(this).val()
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/component_price",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
+                $("#price_selector").html("");
+                $("#price_selector").append("<option>"+'select the price'+"</option>");
+                $.each(response.price, function (key, value) { 
+                    $("#price_selector").append("<option>"+value.Component_price+"</option>");
+                });
+            }
+        });
+    });
+    //we have a button named add which has the id of add_comp when we press this button it shows an 
+    //form for choosing our desired components
+    //after clicking this button we change its id into adder and its function is to display the component
+    //that we choosed through a table
+    $(document).on("click", "#adder", function (e) {
+        e.preventDefault();
+        $(".component_table").addClass("d-block");
+        var name=$("#name_selector").val();
+        var value=$("#value_selector").val();
+        var rating=$("#rating_selector").val();
+        var price=$("#price_selector").val();
+        var quantity=$("#quantity_selector").val();
+        $("#component_table_body").append("<tr>\
+                        <td>"+name+"</td>\
+                        <td>"+value+"</td>\
+                        <td>"+rating+"</td>\
+                        <td>"+price+"</td>\
+                        <td>"+quantity+"</td>\
+                        </tr>"
+        )
+        //taking all the rates include component rating and work price add them and display it
+        var my_rate=parseInt($("#my_rate").val());
+        // component total price is the product of component price and number of quantity
+        var component_total_price=price*quantity;
+        //total price is the summation of component total price and my working rate
+        var total_price=component_total_price+my_rate;
+        //displaying it
+        $("#total_amount").val(total_price);
+    });
+    //customer bill is stored into the database
+    $("#customer_bill_submit").click(function (e) { 
+        e.preventDefault();
+        //alert("hai")
+        //calculating component price
+        var price=$("#price_selector").val();
+        var quantity=$("#quantity_selector").val();
+        var component_total_price=price*quantity;
+        //total price is the summation of component total price and my working rate
+        var my_rate=$("#my_rate").val();
+        var total_price=component_total_price+my_rate;
+        var data={
+            "customer_id":$("#customer_id").val(),
+            "date":$("#date").val(),
+            "customer_name":$("#customer_name").val(),
+            "my_rate":my_rate,
+            "component_price":component_total_price,
+            "total_amount":total_price,
+            "amount_got":$("#amount_got").val()
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "post",
+            url: "/adding_customer_bill",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                if(response.status==200){
+                    $(".message").addClass("alert alert-success");
+                    $(".message").text(response.message);
+                }else if(response.status==400){
+                    $(".message").addClass("alert alert-danger");
+                    $(".message").text(response.message);
+                }
+                $(".component_table").removeClass("d-block");
+                $("#adder").removeClass("d-block");
+            }
+        });
+    });
 });

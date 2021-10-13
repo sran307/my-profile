@@ -71,7 +71,70 @@ class Nakshathra extends Controller
     public function customer(){
         $customer_id=Nwork::max("Customer_id");
         $new_id=$customer_id+1;
+        
+
         return view("customer",["new_id"=>$new_id]);
+    }
+    public function component_for_customer(){
+        $name=ncomponent::get();
+        return response()->json([
+            "name"=>$name,
+        ]);
+    }
+    //taking value of the component with respect to its name
+    public function component_value(Request $request){
+        $name=$request->post("name");
+        $value=ncomponent_pricing::where("Component_name",$name)->get();
+        return response()->json([
+            "value"=>$value
+        ]);
+    }
+    //taking component rating with respect to name and value
+    public function component_rating(Request $request){
+        $name=$request->post("name");
+        $value=$request->post("value");
+        $rating=ncomponent_pricing::where("Component_name",$name)->where("Component_value",$value)->get();
+        return response()->json([
+            "rating"=>$rating
+        ]);
+    }
+    //taking component price
+    public function component_price(Request $request){
+        $name=$request->post("name");
+        $value=$request->post("value");
+        $rating=$request->post("rating");
+        $price=ncomponent_pricing::where("Component_name",$name)
+                ->where("Component_value",$value)
+                ->where("Component_rating",$rating)->get();
+        return response()->json([
+            "price"=>$price
+        ]);
+    }
+    //adding customer bill to database
+    public function adding_customer_bill(Request $request){
+        DB::beginTransaction();
+        try{
+            Nwork::create([
+                "Customer_id"=>$request->post("customer_id"),
+                "Date"=>$request->post("date"),
+                "Customer_name"=>$request->post("customer_name"),
+                "Rate"=>$request->post("my_rate"),
+                "Component_price"=>$request->post("component_price"),
+                "Total_amount"=>$request->post("total_amount"),
+                "Amount_got"=>$request->post("amount_got")
+            ]);
+            DB::commit();
+            return response()->json([
+                "status"=>200,
+                "message"=>"customer bill saved."
+            ]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                "status"=>400,
+                "message"=>"Cannot save customer bill."
+            ]);
+        }
     }
     public function salary(Request $request){
         Nwork::create(["Customer_id"=>$request->post("customer_id"),

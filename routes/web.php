@@ -73,7 +73,11 @@ Route::post("/salary",[Nakshathra::class,"salary"]);
 Route::get("/customer_name",[Nakshathra::class,"customer_name"]);
 Route::get("/update_data/{id}",[Nakshathra::class,"update"]);
 Route::put("/update_fees/{id}",[Nakshathra::class,"update_fees"]);
-
+Route::get("/component_for_customer",[Nakshathra::class,"component_for_customer"]);
+Route::post("/component_value",[Nakshathra::class,"component_value"]);
+Route::post("/component_rating",[Nakshathra::class,"component_rating"]);
+Route::post("/component_price",[Nakshathra::class,"component_price"]);
+Route::post("/adding_customer_bill",[Nakshathra::class,"adding_customer_bill"]);
 
 #operations
 Route::get("/profit",[Nakshathra::class,"profit"]);
