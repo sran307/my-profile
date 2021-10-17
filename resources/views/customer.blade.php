@@ -10,7 +10,7 @@ customer bill
         <input type="date" id="date" required>
         <input type="text" id="customer_name" placeholder="Enter customer name" required>
         <input type="text" id="my_rate" placeholder="Enter your rate" required>
-        <input type="text" id="total_amount" placeholder="Enter total amount" required readonly>
+        <input type="text" id="total_amount" placeholder="Enter total amount" required>
         <input type="text" id="amount_got" placeholder="Enter the amount you got" required>
         <button type="submit" id="customer_bill_submit">Submit</button>
     </form>
@@ -46,6 +46,6 @@ customer bill
             <tbody id="component_table_body"></tbody>
         </table>
     </div>
-    <a href="/dashboard" class="d-flex justify-content-center my-4"><button class="btn btn-primary">RETURN BACK</button></a>
+    <a href="/nakshathra" class="d-flex justify-content-center my-4"><button class="btn btn-primary">RETURN BACK</button></a>
 </section>
 @endsection

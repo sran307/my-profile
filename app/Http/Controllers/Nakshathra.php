@@ -76,7 +76,7 @@ class Nakshathra extends Controller
         return view("customer",["new_id"=>$new_id]);
     }
     public function component_for_customer(){
-        $name=ncomponent::get();
+        $name=ncomponent::orderBy("Components","asc")->get();
         return response()->json([
             "name"=>$name,
         ]);
@@ -253,7 +253,7 @@ class Nakshathra extends Controller
         }
     }
     public function components_available(){
-        $data = Ncomponent::all();
+        $data = Ncomponent::orderBy("Components","asc")->get();
         return view("components_available",["data"=>$data]);
     }
     //checking available number of items
@@ -376,7 +376,6 @@ class Nakshathra extends Controller
         $id=$request->input("id");
         $no_of_taken=$request->input("no_used");
         $data=Ncomponent_pricing::where("id",$id)->get();
-        //dd($data);
         foreach($data as $value){
             $available=$value->No_of_components;
         }
@@ -386,10 +385,6 @@ class Nakshathra extends Controller
             return response()->json([
                 "status"=>400,
                 "message"=>"Sorry, that much of component is not available"
-            ]);
-        }else if($remaining==0){
-            return response()->json([
-                "status"=>205,
             ]);
         }else{
             //update component available table

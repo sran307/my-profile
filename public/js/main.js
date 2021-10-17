@@ -520,6 +520,7 @@ $(document).ready(function(){
             "no_used":$("#used_component").val(),
             "id":$(this).val()
         };
+        //console.log(data);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -728,21 +729,24 @@ $(document).ready(function(){
         // component total price is the product of component price and number of quantity
         var component_total_price=price*quantity;
         //total price is the summation of component total price and my working rate
-        var total_price=component_total_price+my_rate;
+        //var total_price=component_total_price+my_rate;
         //displaying it
-        $("#total_amount").val(total_price);
+        $("#total_amount").val(component_total_price);
     });
     //customer bill is stored into the database
     $("#customer_bill_submit").click(function (e) { 
         e.preventDefault();
         //alert("hai")
         //calculating component price
-        var price=$("#price_selector").val();
-        var quantity=$("#quantity_selector").val();
-        var component_total_price=price*quantity;
+        price=$("#total_amount").val();
+        quantity=$("#quantity_selector").val();
+        //console.log(price);
+        component_total_price=price;
+        //console.log(component_total_price);
         //total price is the summation of component total price and my working rate
-        var my_rate=$("#my_rate").val();
-        var total_price=component_total_price+my_rate;
+        my_rate=$("#my_rate").val();
+        total_price=parseInt(component_total_price)+parseInt(my_rate);
+        //console.log(total_price);
         var data={
             "customer_id":$("#customer_id").val(),
             "date":$("#date").val(),
