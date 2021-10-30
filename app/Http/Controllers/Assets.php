@@ -41,8 +41,10 @@ class Assets extends Controller
     }
     public function fetch_mutual_fund(){
         $mutual_funds=mutual::all();
+        $fund_value=mutual::sum("Amount");
         return response()->json([
-            "mutual_funds"=>$mutual_funds
+            "mutual_funds"=>$mutual_funds,
+            "fund_value"=>$fund_value
         ]);
     }
     public function get_mutual_fund($id){
@@ -77,5 +79,9 @@ class Assets extends Controller
         return response()->json([
             "message"=>"sucess: mutual fund deleted."
         ]);
+    }
+
+    public function stock_names(){
+        return view("stock_names");
     }
 }

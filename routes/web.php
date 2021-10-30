@@ -103,5 +103,6 @@ Route::get("/fetch_mutual_fund",[Assets::class,"fetch_mutual_fund"]);
 Route::get("/get_mutual_fund/{id}",[Assets::class,"get_mutual_fund"]);
 Route::put("/updating_amount",[Assets::class,"updating_amount"]);
 Route::delete("/delete_mutual/{id}",[Assets::class,"delete_mutual"]);
+Route::get("/stock_names",[Assets::class,"stock_names"]);
 
 Route::get("/create_excel",[Excel_controller::class,"export"]);

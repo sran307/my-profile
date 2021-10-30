@@ -1,14 +1,14 @@
 @extends("layout")
 @section("title")
-Mutual fund
+stocks
 @endsection
 @section("content")
 <section class="spacing">
-    <div class="modal fade" id="mutual_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="stock_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header bg-dark">
-                <h5 class="modal-title" id="exampleModalLabel">mutual funds</h5>
+                <h5 class="modal-title" id="exampleModalLabel">my stocks</h5>
                 <button type="button" class="close btn-light" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -16,29 +16,29 @@ Mutual fund
             <div class="modal-body">
                 <form>
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Fund Name:</label>
-                    <input type="text" class="form-control " id="fund-name">
+                    <label for="recipient-name" class="col-form-label">Company Name:</label>
+                    <input type="text" class="form-control " id="company-name">
                     <div>
                         <ul id="error_ul1" class="error_ul my-2"></ul>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Start Date:</label>
-                    <input type="date" class="form-control" id="start-date">
+                    <label for="recipient-name" class="col-form-label">Buy Date:</label>
+                    <input type="date" class="form-control" id="buy-date">
                     <div>
                         <ul id="error_ul2" class="error_ul my-2"></ul>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Investment type:</label>
-                    <select name="investment_type_data" id="investment-type">
-                        <option value="sip">SIP</option>
-                        <option value="one time">One Time</option>
-                    </select>
+                    <label for="recipient-name" class="col-form-label">Buy quantity:</label>
+                    <input type="text" class="form-control" id="buy-quantity">
+                    <div>
+                        <ul id="error_ul2" class="error_ul my-2"></ul>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Invested Amount:</label>
-                    <input type="text" class="form-control" id="invested-amount">
+                    <label for="recipient-name" class="col-form-label">Buying price:</label>
+                    <input type="text" class="form-control" id="buying price">
                     <div>
                         <ul id="error_ul3" class="error_ul my-2"></ul>
                     </div>
@@ -47,7 +47,7 @@ Mutual fund
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-style" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-style add-mutual">ADD YOUR FUND</button>
+                <button type="button" class="btn btn-primary btn-style add-mutual">ADD YOUR STOCK</button>
             </div>
             </div>
         </div>
@@ -115,9 +115,8 @@ Mutual fund
             <div class="col-md-12">
                 <div class="card bg-dark">
                     <div class="card-header">
-                        <h4 class="d-inline-block">mutual funds</h4>
-                        <input type="text" class="mx-5" readonly id="total_mutual_fund">
-                            <a href=""data-toggle="modal" data-target="#mutual_modal" class="btn btn-primary float-right btn-sm btn-style">add mutualfund</a>
+                        <h4 class="d-inline-block">my stocks</h4>
+                            <a href=""data-toggle="modal" data-target="#stock_modal" class="btn btn-primary float-right btn-sm btn-style">buy stock</a>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered table-stripped">

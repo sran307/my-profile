@@ -36,6 +36,7 @@ $(document).ready(function(){
                                 <td><button type='button' class='btn btn-danger btn-sm delete_mutual' value='"+item.id+"'>Delete</button></td>\
                             </tr>");
                 });
+                $("#total_mutual_fund").val(response.fund_value);
             }
         });
     }
